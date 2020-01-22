@@ -12,12 +12,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String url = 'https://jsonplaceholder.typicode.com/photos';
-
   List<PhotoModel> photosList = [];
   int currentLenght = 0;
   final int increment = 10;
   bool isloading = false;
-
+  bool disable = true;
   void initState() {
     super.initState();
     getData();
@@ -29,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     for (var i = currentLenght; i <= currentLenght + increment; i++) {
       var apiItem = i + 1;
-      http.Response response = await http.get('$url/$apiItem');      
+      http.Response response = await http.get('$url/$apiItem');
       Map<String, dynamic> parsedJson = json.decode(response.body);
       PhotoModel photo = PhotoModel.fromJson(parsedJson);
       photosList.add(photo);
@@ -79,14 +78,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Padding(
             padding: EdgeInsets.only(right: 10),
-            child: GestureDetector(            
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: 15,
+            child: GestureDetector(
+              child: Icon(
+                Icons.search,
+                size: 30,
               ),
-              onTap: (){
-                print('profile page');
-               Navigator.pushNamed(context, '/profile');
+              onTap: () {
+                print('search page');
+                // Navigator.pushNamed(context, '/profile');
               },
             ),
           )
@@ -102,6 +101,32 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
       ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        child: Container(
+          height: 50,
+          child: Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Expanded(
+                child: IconButton(
+                  icon: Icon(Icons.home, color: Colors.black),
+                  color: Colors.white,
+                  onPressed: () {},
+                ),
+              ),
+              Expanded(
+                child: IconButton(
+                  icon: Icon(Icons.account_circle, color: Colors.black),
+                  color: Colors.white,
+                  onPressed: () {},
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
